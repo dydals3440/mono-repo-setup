@@ -32,4 +32,6 @@ RUN npm install -g pnpm
 COPY --from=builder /app/ .
 WORKDIR /app/apps/web
 
+EXPOSE 3000
+
 CMD ["pnpm", "start"]

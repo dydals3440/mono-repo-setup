@@ -30,4 +30,6 @@ WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/ .
 
+EXPOSE 8080
+
 CMD ["node", "apps/api/dist/main"]
