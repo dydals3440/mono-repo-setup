@@ -1,135 +1,188 @@
-# Turborepo starter
+# 프로젝트 모노레포
 
-This Turborepo starter is maintained by the Turborepo core team.
+Turborepo 기반 NestJS API + Next.js 웹 애플리케이션 모노레포 프로젝트입니다.
 
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## 프로젝트 구조
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+.
+├── apps/
+│   ├── api/          # NestJS API 서버
+│   └── web/          # Next.js 웹 애플리케이션
+├── packages/
+│   ├── jest-config/      # 공유 Jest 설정
+│   ├── types/           # 공유 TypeScript 타입
+│   └── typescript-config/ # 공유 TypeScript 설정
+└── docker-compose.yml   # Docker Compose 설정
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 초기 세팅 완료 항목
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+### 개발 도구
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+- **Biome**: ESLint와 Prettier를 대체하는 올인원 린터/포맷터
+  - 세미콜론 제거 (`semicolons: "asNeeded"`)
+  - 더블 쿼트 사용 (`quoteStyle: "double"`)
+  - Trailing commas 자동 추가
+  - 자동 import 정리
 
-### Develop
+- **Commitlint**: 커밋 메시지 규칙 적용
+  - Conventional Commits 형식 강제
+  - 타입: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+  - 한/영 혼용 커밋 메시지 허용
 
-To develop all apps and packages, run the following command:
+- **Simple Git Hooks**: Git 훅 관리
+  - pre-commit: lint-staged 실행
 
-```
-cd my-turborepo
+- **Lint-staged**: 스테이징된 파일만 린트/포맷 실행
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+### 빌드 도구
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+- **Turborepo**: 모노레포 빌드 시스템
+- **TypeScript**: 타입 체크
+- **Jest**: 테스트 프레임워크 (NestJS, Next.js 각각 설정)
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Docker
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+- Docker Compose로 API와 Web 앱 동시 실행 가능
+- 헬스체크 설정 완료
+- 개발 환경 Hot Reload 지원
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## 시작하기
 
-### Remote Caching
+### 의존성 설치
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+pnpm install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### 개발 서버 실행
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+```bash
+# 전체 앱 실행
+pnpm dev
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+# 특정 앱만 실행
+pnpm dev --filter=api   # API 서버만
+pnpm dev --filter=web   # Web 앱만
 ```
 
-## Useful Links
+### Docker로 실행
 
-Learn more about the power of Turborepo:
+```bash
+docker-compose up
+```
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- API: http://localhost:8080
+- Web: http://localhost:3000
+
+### 빌드
+
+```bash
+# 전체 빌드
+pnpm build
+
+# 특정 앱만 빌드
+pnpm build --filter=api
+pnpm build --filter=web
+```
+
+### 테스트
+
+```bash
+# 전체 테스트
+pnpm test
+
+# 특정 앱만 테스트
+pnpm test --filter=api
+```
+
+### 린트 & 포맷
+
+```bash
+# 전체 린트
+pnpm lint
+
+# 포맷팅
+pnpm format
+```
+
+## 중요 유의사항
+
+### 1. 커밋 메시지 규칙
+
+모든 커밋은 Conventional Commits 형식을 따라야 합니다:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+예시:
+```
+feat(api): 상품 생성 API 추가
+
+상품 이름과 가격을 받아 새로운 상품을 생성하는 API를 추가했습니다.
+```
+
+### 2. 코드 스타일
+
+- **세미콜론 사용 안 함**: Biome 설정에 따라 세미콜론은 자동으로 제거됩니다
+- **더블 쿼트 사용**: 문자열은 항상 더블 쿼트(`"`)를 사용합니다
+- **Trailing commas**: 객체/배열 마지막 항목에 콤마를 추가합니다
+
+### 3. Import 순서
+
+Biome가 자동으로 import를 정리합니다:
+1. 외부 라이브러리
+2. 내부 패키지
+3. 상대 경로
+
+### 4. 공유 패키지 사용
+
+공유 타입이나 설정을 사용할 때:
+
+```typescript
+// 타입 import
+import type { Product } from "@repo/types"
+
+// Jest 설정 사용
+import { nestConfig } from "@repo/jest-config"
+```
+
+### 5. Git Hooks
+
+커밋 전에 자동으로 실행됩니다:
+- Biome 린트 & 포맷 체크
+- 타입 체크
+- 커밋 메시지 검증
+
+### 6. 패키지 관리
+
+- **pnpm만 사용**: workspace 기능을 위해 pnpm을 사용합니다
+- npm이나 yarn 사용 시 `.npmrc`에 의해 차단됩니다
+
+## 주요 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `pnpm dev` | 개발 서버 실행 |
+| `pnpm build` | 프로덕션 빌드 |
+| `pnpm test` | 테스트 실행 |
+| `pnpm lint` | 린트 실행 |
+| `pnpm format` | 코드 포맷팅 |
+| `pnpm check-types` | 타입 체크 |
+
+## Turborepo 원격 캐싱 (선택사항)
+
+팀과 빌드 캐시를 공유하려면:
+
+```bash
+pnpm dlx turbo login
+pnpm dlx turbo link
+```
+
+자세한 내용은 [Turborepo 문서](https://turborepo.com/docs/core-concepts/remote-caching)를 참고하세요.

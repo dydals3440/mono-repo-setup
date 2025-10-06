@@ -2,16 +2,16 @@
   "name": "@repo/types",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc -w",
-    "lint": "eslint . --max-warnings 0"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "biome check ."
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
