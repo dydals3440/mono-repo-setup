@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common"
 import type { CreateProductRequest } from "@repo/types"
-import type { ProductsService } from "./products.service"
+import { ProductsService } from "./products.service"
 
 @Controller("products")
 export class ProductsController {
