@@ -1,12 +1,13 @@
-import { Body, Controller, Post } from "@nestjs/common"
-import type { CreateProductRequest } from "@repo/types"
-import { ProductsService } from "./products.service"
+import { Body, Controller, Post } from "@nestjs/common";
+import type { CreateProductRequest } from "@repo/types";
+import { ProductsService } from "./products.service";
 
 @Controller("products")
 export class ProductsController {
-  constructor(readonly _ProductsService: ProductsService) {}
+  constructor(readonly productsService: ProductsService) {}
 
   @Post()
-  // biome-ignore lint/suspicious/noEmptyBlockStatements: we don't want to create a product in the controller
-  async createProduct(@Body() _createProductRequest: CreateProductRequest) {}
+  createProduct(@Body() _createProductRequest: CreateProductRequest) {
+    this.productsService.createProduct(_createProductRequest);
+  }
 }
