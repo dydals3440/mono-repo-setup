@@ -21,17 +21,20 @@ Turborepo 기반 NestJS API + Next.js 웹 애플리케이션 모노레포 프로
 ### 개발 도구
 
 - **Biome**: ESLint와 Prettier를 대체하는 올인원 린터/포맷터
+
   - 세미콜론 제거 (`semicolons: "asNeeded"`)
   - 더블 쿼트 사용 (`quoteStyle: "double"`)
   - Trailing commas 자동 추가
   - 자동 import 정리
 
 - **Commitlint**: 커밋 메시지 규칙 적용
+
   - Conventional Commits 형식 강제
   - 타입: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
   - 한/영 혼용 커밋 메시지 허용
 
 - **Simple Git Hooks**: Git 훅 관리
+
   - pre-commit: lint-staged 실행
 
 - **Lint-staged**: 스테이징된 파일만 린트/포맷 실행
@@ -122,6 +125,7 @@ pnpm format
 ```
 
 예시:
+
 ```
 feat(api): 상품 생성 API 추가
 
@@ -137,6 +141,7 @@ feat(api): 상품 생성 API 추가
 ### 3. Import 순서
 
 Biome가 자동으로 import를 정리합니다:
+
 1. 외부 라이브러리
 2. 내부 패키지
 3. 상대 경로
@@ -147,15 +152,16 @@ Biome가 자동으로 import를 정리합니다:
 
 ```typescript
 // 타입 import
-import type { Product } from "@repo/types"
+import type { Product } from '@repo/types';
 
 // Jest 설정 사용
-import { nestConfig } from "@repo/jest-config"
+import { nestConfig } from '@repo/jest-config';
 ```
 
 ### 5. Git Hooks
 
 커밋 전에 자동으로 실행됩니다:
+
 - Biome 린트 & 포맷 체크
 - 타입 체크
 - 커밋 메시지 검증
@@ -167,14 +173,14 @@ import { nestConfig } from "@repo/jest-config"
 
 ## 주요 명령어
 
-| 명령어 | 설명 |
-|--------|------|
-| `pnpm dev` | 개발 서버 실행 |
-| `pnpm build` | 프로덕션 빌드 |
-| `pnpm test` | 테스트 실행 |
-| `pnpm lint` | 린트 실행 |
-| `pnpm format` | 코드 포맷팅 |
-| `pnpm check-types` | 타입 체크 |
+| 명령어             | 설명           |
+| ------------------ | -------------- |
+| `pnpm dev`         | 개발 서버 실행 |
+| `pnpm build`       | 프로덕션 빌드  |
+| `pnpm test`        | 테스트 실행    |
+| `pnpm lint`        | 린트 실행      |
+| `pnpm format`      | 코드 포맷팅    |
+| `pnpm check-types` | 타입 체크      |
 
 ## Turborepo 원격 캐싱 (선택사항)
 

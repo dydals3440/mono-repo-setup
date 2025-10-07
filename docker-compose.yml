@@ -1,6 +1,25 @@
 version: "3.8"
 
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: moya-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=moya
+      - MYSQL_USER=moya
+      - MYSQL_PASSWORD=moya
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   api:
     build:
       context: .
@@ -13,7 +32,11 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=8080
+      - DATABASE_URL=mysql://root:root@mysql:3306/moya
     restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
     healthcheck:
       test:
         [
@@ -58,3 +81,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+volumes:
+  mysql_data:

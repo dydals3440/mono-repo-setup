@@ -23,6 +23,7 @@ WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
 RUN npm install -g pnpm
+RUN cd apps/api && pnpm exec prisma generate
 RUN pnpm run build
 
 FROM node:lts-alpine AS runner

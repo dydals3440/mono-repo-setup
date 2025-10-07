@@ -42,6 +42,9 @@
       "style": {
         "useSelfClosingElements": "error"
       },
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
       "suspicious": {
         "noArrayIndexKey": "off",
         "noVar": "error"
@@ -60,7 +63,16 @@
       }
     },
     {
-      "includes": ["**/*.service.ts", "**/*.controller.ts"],
+      "includes": [
+        "**/*.service.ts",
+        "**/*.controller.ts",
+        "**/*.repository.ts",
+        "**/*.dto.ts",
+        "**/*.module.ts",
+        "**/*.strategy.ts",
+        "**/*.guard.ts",
+        "**/*.decorator.ts"
+      ],
       "javascript": {
         "parser": {
           "unsafeParameterDecoratorsEnabled": true
